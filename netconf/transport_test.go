@@ -46,13 +46,13 @@ func TestReceiveHello(t *testing.T) {
 	tt := []struct {
 		name     string
 		input    string
-		expected *HelloMessage
+		expected *HelloMessageReceive
 	}{
 		{
 			name: "juniperHello",
 			input: `<!-- No zombies were killed during the creation of this user interface -->
 <!-- user bbennett, class j-super-user -->
-<hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+<hello>
   <capabilities>
     <capability>urn:ietf:params:xml:ns:netconf:base:1.0</capability>
     <capability>urn:ietf:params:xml:ns:netconf:capability:candidate:1.0</capability>
@@ -65,8 +65,8 @@ func TestReceiveHello(t *testing.T) {
   <session-id>19313</session-id>
 </hello>
 ]]>]]>`,
-			expected: &HelloMessage{
-				XMLName:   xml.Name{Space: "urn:ietf:params:xml:ns:netconf:base:1.0", Local: "hello"},
+			expected: &HelloMessageReceive{
+				XMLName:   xml.Name{Local: "hello"},
 				SessionID: 19313,
 				Capabilities: []string{
 					"urn:ietf:params:xml:ns:netconf:base:1.0",
@@ -101,12 +101,12 @@ func TestReceiveHello(t *testing.T) {
 func TestSendHello(t *testing.T) {
 	tt := []struct {
 		name     string
-		input    *HelloMessage
+		input    *HelloMessageSend
 		expected string
 	}{
 		{
 			name:  "default",
-			input: &HelloMessage{Capabilities: DefaultCapabilities},
+			input: &HelloMessageSend{Capabilities: DefaultCapabilities},
 			expected: `<?xml version="1.0" encoding="UTF-8"?>
 <hello xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><capabilities><capability>urn:ietf:params:netconf:base:1.0</capability></capabilities></hello>]]>]]>
 `,

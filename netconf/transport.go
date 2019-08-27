@@ -25,7 +25,12 @@ var DefaultCapabilities = []string{
 }
 
 // HelloMessage is used when bringing up a NETCONF session
-type HelloMessage struct {
+type HelloMessageReceive struct {
+	XMLName      xml.Name `xml:"hello"`
+	Capabilities []string `xml:"capabilities>capability"`
+	SessionID    int      `xml:"session-id,omitempty"`
+}
+type HelloMessageSend struct {
 	XMLName      xml.Name `xml:"urn:ietf:params:xml:ns:netconf:base:1.0 hello"`
 	Capabilities []string `xml:"capabilities>capability"`
 	SessionID    int      `xml:"session-id,omitempty"`
@@ -37,8 +42,8 @@ type Transport interface {
 	Send([]byte) error
 	Receive() ([]byte, error)
 	Close() error
-	ReceiveHello() (*HelloMessage, error)
-	SendHello(*HelloMessage) error
+	ReceiveHello() (*HelloMessageReceive, error)
+	SendHello(*HelloMessageSend) error
 }
 
 type transportBasicIO struct {
@@ -62,7 +67,7 @@ func (t *transportBasicIO) Receive() ([]byte, error) {
 	return t.WaitForBytes([]byte(msgSeperator))
 }
 
-func (t *transportBasicIO) SendHello(hello *HelloMessage) error {
+func (t *transportBasicIO) SendHello(hello *HelloMessageSend) error {
 	val, err := xml.Marshal(hello)
 	if err != nil {
 		return err
@@ -74,8 +79,8 @@ func (t *transportBasicIO) SendHello(hello *HelloMessage) error {
 	return err
 }
 
-func (t *transportBasicIO) ReceiveHello() (*HelloMessage, error) {
-	hello := new(HelloMessage)
+func (t *transportBasicIO) ReceiveHello() (*HelloMessageReceive, error) {
+	hello := new(HelloMessageReceive)
 
 	val, err := t.Receive()
 	if err != nil {
