@@ -10,7 +10,7 @@
 
 * merge same code for SSHConfigPubKeyFile & Pem in one func
 
-## O.3.0 (October 20, 2020)
+## 0.3.0 (October 20, 2020)
 
 * add SSHConfigPubKeyPem function to take private key directly
 
