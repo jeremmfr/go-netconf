@@ -1,5 +1,6 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* enhance RPCError display with the `error-path` and `error-info>bad-element` values if set
 * deps: bump golang.org/x/crypto to v0.0.0-20210921155107-089bfa567519
 
 ## 0.3.2 (July 26, 2021)

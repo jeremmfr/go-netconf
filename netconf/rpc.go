@@ -84,17 +84,27 @@ func newRPCReply(rawXML []byte, ErrOnWarning bool, messageID string) (*RPCReply,
 
 // RPCError defines an error reply to a RPC request
 type RPCError struct {
-	Type     string `xml:"error-type"`
-	Tag      string `xml:"error-tag"`
-	Severity string `xml:"error-severity"`
-	Path     string `xml:"error-path"`
-	Message  string `xml:"error-message"`
-	Info     string `xml:",innerxml"`
+	Type       string `xml:"error-type"`
+	Tag        string `xml:"error-tag"`
+	Severity   string `xml:"error-severity"`
+	Path       string `xml:"error-path"`
+	Message    string `xml:"error-message"`
+	BadElement string `xml:"error-info>bad-element"`
+	Info       string `xml:",innerxml"`
 }
 
 // Error generates a string representation of the provided RPC error
 func (re *RPCError) Error() string {
-	return fmt.Sprintf("netconf rpc [%s] '%s'", re.Severity, re.Message)
+	if re.Path != "" {
+		if re.BadElement != "" {
+			return fmt.Sprintf("netconf rpc [%s]\n%s\n  '%s'\n    %s",
+				re.Severity, re.Path, re.BadElement, re.Message)
+		}
+
+		return fmt.Sprintf("netconf rpc [%s]\n%s\n  %s", re.Severity, re.Path, re.Message)
+	}
+
+	return fmt.Sprintf("netconf rpc [%s] %s", re.Severity, re.Message)
 }
 
 // RPCMethod defines the interface for creating an RPC method.
