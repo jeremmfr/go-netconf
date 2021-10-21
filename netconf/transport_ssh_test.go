@@ -8,8 +8,6 @@ package netconf
 
 import (
 	"reflect"
-	"runtime"
-	"strings"
 	"testing"
 )
 
@@ -36,11 +34,5 @@ func TestSSHConfigPassword(t *testing.T) {
 	authMethodDesiredType := "ssh.passwordCallback"
 	if authMethodType != authMethodDesiredType {
 		t.Errorf("got type %s, expected %s", authMethodType, authMethodDesiredType)
-	}
-
-	// Ignre host key
-	hostKeyMethod := runtime.FuncForPC(reflect.ValueOf(res.HostKeyCallback).Pointer()).Name()
-	if !strings.Contains(hostKeyMethod, "InsecureIgnoreHostKey") {
-		t.Errorf("host key method of %s does not contain expected InsecureIgnoreHostKey", hostKeyMethod)
 	}
 }

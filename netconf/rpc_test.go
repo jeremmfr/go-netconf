@@ -68,7 +68,7 @@ func TestRPCErrorError(t *testing.T) {
 		Severity: "lol",
 		Message:  "cats",
 	}
-	expected := "netconf rpc [lol] 'cats'"
+	expected := "netconf rpc [lol] cats"
 
 	errMsg := rpcErr.Error()
 	if errMsg != expected {
