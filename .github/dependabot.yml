@@ -1,12 +1,12 @@
 version: 2
 updates:
-- package-ecosystem: gomod
-  directory: /
-  commit-message:
+  - package-ecosystem: gomod
+    directory: /
+    commit-message:
       prefix: "deps:"
-  schedule:
-    interval: daily
-  assignees:
-    - "jeremmfr"
-  reviewers:
-    - "jeremmfr"
+    schedule:
+      interval: daily
+    assignees:
+      - "jeremmfr"
+    reviewers:
+      - "jeremmfr"
