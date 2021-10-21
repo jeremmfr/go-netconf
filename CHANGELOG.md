@@ -1,5 +1,7 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* deps: bump golang.org/x/crypto to v0.0.0-20210921155107-089bfa567519
+
 ## 0.3.2 (July 26, 2021)
 
 * deps: bump golang.org/x/crypto to v0.0.0-20210711020723-a769d52b0f97
