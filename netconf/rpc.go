@@ -12,6 +12,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"strings"
 )
 
 // RPCMessage represents an RPC Message to be sent.
@@ -98,13 +99,24 @@ func (re *RPCError) Error() string {
 	if re.Path != "" {
 		if re.BadElement != "" {
 			return fmt.Sprintf("netconf rpc [%s]\n%s\n  '%s'\n    %s",
-				re.Severity, re.Path, re.BadElement, re.Message)
+				re.Severity,
+				strings.Trim(re.Path, "\n"),
+				strings.Trim(re.BadElement, "\n"),
+				strings.TrimSuffix(strings.TrimPrefix(re.Message, "\n"), "\n"),
+			)
 		}
 
-		return fmt.Sprintf("netconf rpc [%s]\n%s\n  %s", re.Severity, re.Path, re.Message)
+		return fmt.Sprintf("netconf rpc [%s]\n%s\n  %s",
+			re.Severity,
+			strings.Trim(re.Path, "\n"),
+			strings.TrimSuffix(strings.TrimPrefix(re.Message, "\n"), "\n"),
+		)
 	}
 
-	return fmt.Sprintf("netconf rpc [%s] %s", re.Severity, re.Message)
+	return fmt.Sprintf("netconf rpc [%s] %s",
+		re.Severity,
+		strings.TrimSuffix(strings.TrimPrefix(re.Message, "\n"), "\n"),
+	)
 }
 
 // RPCMethod defines the interface for creating an RPC method.
