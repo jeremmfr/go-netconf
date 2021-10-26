@@ -1,5 +1,7 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* remove newline characters in `error-path` and `error-info>bad-element` and start or end of `error-message` when RPCError display
+
 ## 0.4.0 (October 21, 2021)
 
 * enhance RPCError display with the `error-path` and `error-info>bad-element` values if set
