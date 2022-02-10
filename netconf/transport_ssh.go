@@ -7,8 +7,8 @@
 package netconf
 
 import (
-	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -201,18 +201,23 @@ func SSHConfigPubKeyPem(user string, key []byte, passphrase string) (*ssh.Client
 }
 
 func sshConfigPubKeyDecoded(user string, block *pem.Block, key []byte, passphrase string) (*ssh.ClientConfig, error) {
-	if x509.IsEncryptedPEMBlock(block) {
-		b, err := x509.DecryptPEMBlock(block, []byte(passphrase))
-		if err != nil {
-			return nil, err
-		}
-		key = pem.EncodeToMemory(&pem.Block{
-			Type:  block.Type,
-			Bytes: b,
-		})
-	}
 	keySign, err := ssh.ParsePrivateKey(key)
 	if err != nil {
+		var passphraseMissingError *ssh.PassphraseMissingError
+		if errors.As(err, &passphraseMissingError) && passphrase != "" {
+			keySignPass, errPass := ssh.ParsePrivateKeyWithPassphrase(key, []byte(passphrase))
+			if errPass != nil {
+				return nil, errPass
+			}
+
+			return &ssh.ClientConfig{
+				User: user,
+				Auth: []ssh.AuthMethod{
+					ssh.PublicKeys(keySignPass),
+				},
+			}, nil
+		}
+
 		return nil, err
 	}
 
