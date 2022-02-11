@@ -7,8 +7,8 @@
 package netconf
 
 import (
-	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -180,39 +180,44 @@ func SSHConfigPubKeyFile(user string, file string, passphrase string) (*ssh.Clie
 	if err != nil {
 		return nil, err
 	}
-	block, rest := pem.Decode(buf)
+	_, rest := pem.Decode(buf)
 	if len(rest) > 0 {
 		return nil, fmt.Errorf("pem: unable to decode file %s", file)
 	}
 
-	return sshConfigPubKeyDecoded(user, block, buf, passphrase)
+	return sshConfigPubKeyDecoded(user, buf, passphrase)
 }
 
 // SSHConfigPubKeyPem is a convenience function that takes a username, private key
 // in PEM format and passphrase and returns a new ssh.ClientConfig setup to pass
 // credentials to DialSSH
 func SSHConfigPubKeyPem(user string, key []byte, passphrase string) (*ssh.ClientConfig, error) {
-	block, rest := pem.Decode(key)
+	_, rest := pem.Decode(key)
 	if len(rest) > 0 {
 		return nil, fmt.Errorf("pem: unable to decode private key in PEM format")
 	}
 
-	return sshConfigPubKeyDecoded(user, block, key, passphrase)
+	return sshConfigPubKeyDecoded(user, key, passphrase)
 }
 
-func sshConfigPubKeyDecoded(user string, block *pem.Block, key []byte, passphrase string) (*ssh.ClientConfig, error) {
-	if x509.IsEncryptedPEMBlock(block) {
-		b, err := x509.DecryptPEMBlock(block, []byte(passphrase))
-		if err != nil {
-			return nil, err
-		}
-		key = pem.EncodeToMemory(&pem.Block{
-			Type:  block.Type,
-			Bytes: b,
-		})
-	}
+func sshConfigPubKeyDecoded(user string, key []byte, passphrase string) (*ssh.ClientConfig, error) {
 	keySign, err := ssh.ParsePrivateKey(key)
 	if err != nil {
+		var passphraseMissingError *ssh.PassphraseMissingError
+		if errors.As(err, &passphraseMissingError) && passphrase != "" {
+			keySignPass, errPass := ssh.ParsePrivateKeyWithPassphrase(key, []byte(passphrase))
+			if errPass != nil {
+				return nil, errPass
+			}
+
+			return &ssh.ClientConfig{
+				User: user,
+				Auth: []ssh.AuthMethod{
+					ssh.PublicKeys(keySignPass),
+				},
+			}, nil
+		}
+
 		return nil, err
 	}
 
