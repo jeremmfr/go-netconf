@@ -180,27 +180,27 @@ func SSHConfigPubKeyFile(user string, file string, passphrase string) (*ssh.Clie
 	if err != nil {
 		return nil, err
 	}
-	block, rest := pem.Decode(buf)
+	_, rest := pem.Decode(buf)
 	if len(rest) > 0 {
 		return nil, fmt.Errorf("pem: unable to decode file %s", file)
 	}
 
-	return sshConfigPubKeyDecoded(user, block, buf, passphrase)
+	return sshConfigPubKeyDecoded(user, buf, passphrase)
 }
 
 // SSHConfigPubKeyPem is a convenience function that takes a username, private key
 // in PEM format and passphrase and returns a new ssh.ClientConfig setup to pass
 // credentials to DialSSH
 func SSHConfigPubKeyPem(user string, key []byte, passphrase string) (*ssh.ClientConfig, error) {
-	block, rest := pem.Decode(key)
+	_, rest := pem.Decode(key)
 	if len(rest) > 0 {
 		return nil, fmt.Errorf("pem: unable to decode private key in PEM format")
 	}
 
-	return sshConfigPubKeyDecoded(user, block, key, passphrase)
+	return sshConfigPubKeyDecoded(user, key, passphrase)
 }
 
-func sshConfigPubKeyDecoded(user string, block *pem.Block, key []byte, passphrase string) (*ssh.ClientConfig, error) {
+func sshConfigPubKeyDecoded(user string, key []byte, passphrase string) (*ssh.ClientConfig, error) {
 	keySign, err := ssh.ParsePrivateKey(key)
 	if err != nil {
 		var passphraseMissingError *ssh.PassphraseMissingError
