@@ -1,5 +1,9 @@
 <!-- markdownlint-disable-file MD041 -->
 
+## 0.4.2 (February 11, 2022)
+
+* fix to generate `ssh.ClientConfig` with a protected private key (replace detection with `ssh.PassphraseMissingError` instead of `x509.IsEncryptedPEMBlock`)
+
 ## 0.4.1 (October 26, 2021)
 
 * remove newline characters in `error-path` and `error-info>bad-element` and start or end of `error-message` when RPCError display
