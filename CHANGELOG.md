@@ -1,5 +1,7 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* deps: bump golang.org/x/crypto to v0.0.0-20220315160706-3147a52a75dd
+
 ## 0.4.2 (February 11, 2022)
 
 * fix to generate `ssh.ClientConfig` with a protected private key (replace detection with `ssh.PassphraseMissingError` instead of `x509.IsEncryptedPEMBlock`)
