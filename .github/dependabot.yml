@@ -10,3 +10,13 @@ updates:
       - "jeremmfr"
     reviewers:
       - "jeremmfr"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    commit-message:
+      prefix: "workflows:"
+    schedule:
+      interval: daily
+    assignees:
+      - "jeremmfr"
+    reviewers:
+      - "jeremmfr"
