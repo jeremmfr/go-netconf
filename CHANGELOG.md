@@ -1,5 +1,9 @@
 <!-- markdownlint-disable-file MD041 -->
 
+## 0.4.5 (May 05, 2022)
+
+* deps: bump github.com/google/go-cmp to v0.5.8
+
 ## 0.4.3 (March 16, 2022)
 
 * deps: bump golang.org/x/crypto to v0.0.0-20220315160706-3147a52a75dd
