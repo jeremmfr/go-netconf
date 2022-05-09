@@ -1,5 +1,7 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* fix add default port if missing with `Dial` when `target` is an IPv6 address
+
 ## 0.4.5 (May 05, 2022)
 
 * deps: bump github.com/google/go-cmp to v0.5.8

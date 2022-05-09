@@ -13,6 +13,8 @@ import (
 	"io/ioutil"
 	"net"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 	"time"
 
@@ -70,8 +72,9 @@ func (t *TransportSSH) Close() error {
 // go.crypto/ssh for documenation.  There is a helper function SSHConfigPassword
 // thar returns a ssh.ClientConfig for simple username/password authentication
 func (t *TransportSSH) Dial(target string, config *ssh.ClientConfig) error {
-	if !strings.Contains(target, ":") {
-		target = fmt.Sprintf("%s:%d", target, sshDefaultPort)
+	if strings.Count(target, `:`) == 0 ||
+		(strings.Count(target, `:`) > 1 && !regexp.MustCompile(`\]:\d+$`).MatchString(target)) {
+		target = net.JoinHostPort(target, strconv.Itoa(sshDefaultPort))
 	}
 
 	var err error
