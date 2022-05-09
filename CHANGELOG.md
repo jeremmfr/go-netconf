@@ -1,5 +1,7 @@
 <!-- markdownlint-disable-file MD041 -->
 
+## 0.4.6 (May 10, 2022)
+
 * fix add default port if missing with `Dial` when `target` is an IPv6 address
 
 ## 0.4.5 (May 05, 2022)
