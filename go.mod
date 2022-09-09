@@ -3,6 +3,6 @@ module github.com/jeremmfr/go-netconf
 go 1.13
 
 require (
-	github.com/google/go-cmp v0.5.8
+	github.com/google/go-cmp v0.5.9
 	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
 )
