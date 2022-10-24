@@ -1,5 +1,10 @@
 <!-- markdownlint-disable-file MD041 -->
 
+## 0.4.7 (October 24, 2022)
+
+* deps: bump golang.org/x/crypto to v0.1.0
+* deps: bump github.com/google/go-cmp to v0.5.9 (used by tests)
+
 ## 0.4.6 (May 10, 2022)
 
 * fix add default port if missing with `Dial` when `target` is an IPv6 address
