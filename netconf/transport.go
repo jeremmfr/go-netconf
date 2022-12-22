@@ -36,7 +36,7 @@ type HelloMessageSend struct {
 	SessionID    int      `xml:"session-id,omitempty"`
 }
 
-// Transport interface defines what characterisitics make up a NETCONF transport
+// Transport interface defines what characteristics make up a NETCONF transport
 // layer object.
 type Transport interface {
 	Send([]byte) error

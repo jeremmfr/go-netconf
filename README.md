@@ -1,7 +1,7 @@
 # netconf
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/jeremmfr/go-netconf.svg)](https://pkg.go.dev/github.com/jeremmfr/go-netconf/netconf)
-[![Report Card](https://goreportcard.com/badge/github.com/jeremmfr/go-netconf/netconf)](https://goreportcard.com/report/github.com/jeremmfr/go-netconf/netconf)
+[![Report Card](https://goreportcard.com/badge/github.com/jeremmfr/go-netconf)](https://goreportcard.com/report/github.com/jeremmfr/go-netconf)
 
 This library is a simple NETCONF client based on [RFC6241](http://tools.ietf.org/html/rfc6241) and [RFC6242](http://tools.ietf.org/html/rfc6242) (although not fully compliant yet).
 

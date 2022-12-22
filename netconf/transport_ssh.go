@@ -69,7 +69,7 @@ func (t *TransportSSH) Close() error {
 // following format <host>:<port (e.g 172.16.1.1:22)
 //
 // config takes a ssh.ClientConfig connection. See documentation for
-// go.crypto/ssh for documenation.  There is a helper function SSHConfigPassword
+// go.crypto/ssh for documentation.  There is a helper function SSHConfigPassword
 // thar returns a ssh.ClientConfig for simple username/password authentication
 func (t *TransportSSH) Dial(target string, config *ssh.ClientConfig) error {
 	if strings.Count(target, `:`) == 0 ||
