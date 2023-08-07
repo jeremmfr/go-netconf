@@ -1,4 +1,8 @@
 <!-- markdownlint-disable-file MD041 -->
+## 0.4.13 (August 07, 2023)
+
+* deps: bump golang.org/x/crypto to v0.12.0
+
 ## 0.4.12 (May 09, 2023)
 
 * deps: bump golang.org/x/crypto to v0.9.0
