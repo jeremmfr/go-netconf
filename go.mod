@@ -4,5 +4,5 @@ go 1.13
 
 require (
 	github.com/google/go-cmp v0.6.0
-	golang.org/x/crypto v0.14.0
+	golang.org/x/crypto v0.16.0
 )
