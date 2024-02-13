@@ -10,7 +10,6 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"os"
 	"regexp"
@@ -179,7 +178,7 @@ func SSHConfigPassword(user string, pass string) *ssh.ClientConfig {
 // and passphrase and returns a new ssh.ClientConfig setup to pass credentials
 // to DialSSH
 func SSHConfigPubKeyFile(user string, file string, passphrase string) (*ssh.ClientConfig, error) {
-	buf, err := ioutil.ReadFile(file)
+	buf, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
@@ -271,11 +270,11 @@ type deadlineConn struct {
 }
 
 func (c *deadlineConn) Read(b []byte) (n int, err error) {
-	c.SetReadDeadline(time.Now().Add(c.timeout))
+	_ = c.SetReadDeadline(time.Now().Add(c.timeout))
 	return c.Conn.Read(b)
 }
 
 func (c *deadlineConn) Write(b []byte) (n int, err error) {
-	c.SetWriteDeadline(time.Now().Add(c.timeout))
+	_ = c.SetWriteDeadline(time.Now().Add(c.timeout))
 	return c.Conn.Write(b)
 }
