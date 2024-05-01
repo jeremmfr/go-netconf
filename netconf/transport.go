@@ -9,7 +9,7 @@ package netconf
 import (
 	"bytes"
 	"encoding/xml"
-	"fmt"
+	"errors"
 	"io"
 	"regexp"
 )
@@ -131,7 +131,7 @@ func (t *transportBasicIO) WaitForFunc(f func([]byte) (int, error)) ([]byte, err
 		}
 	}
 
-	return nil, fmt.Errorf("WaitForFunc failed")
+	return nil, errors.New("unexpected end of netconf message receipt")
 }
 
 func (t *transportBasicIO) WaitForBytes(b []byte) ([]byte, error) {
