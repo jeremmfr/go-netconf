@@ -9,6 +9,7 @@ package netconf
 import (
 	"bytes"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"regexp"
@@ -53,14 +54,21 @@ type transportBasicIO struct {
 // Sends a well formated NETCONF rpc message as a slice of bytes adding on the
 // nessisary framining messages.
 func (t *transportBasicIO) Send(data []byte) error {
-	_, _ = t.Write(data)
+	msgData := make([]byte, 0, len(data)+len(msgSeperator)*2+1)
+
+	msgData = append(msgData, data...)
 	// Pad to make sure the msgSeparator isn't sent across a 4096-byte boundary
 	if (len(data)+len(msgSeperator))%4096 < 6 {
-		_, _ = t.Write([]byte("      "))
+		msgData = append(msgData, []byte("      ")...)
 	}
-	_, _ = t.Write([]byte(msgSeperator))
-	_, _ = t.Write([]byte("\n"))
-	return nil // TODO: Implement error handling!
+	msgData = append(msgData, msgSeperator...)
+	msgData = append(msgData, []byte("\n")...)
+
+	if _, err := t.Write(msgData); err != nil {
+		return fmt.Errorf("sending netconf message: %w", err)
+	}
+
+	return nil
 }
 
 func (t *transportBasicIO) Receive() ([]byte, error) {
@@ -131,7 +139,7 @@ func (t *transportBasicIO) WaitForFunc(f func([]byte) (int, error)) ([]byte, err
 		}
 	}
 
-	return nil, fmt.Errorf("WaitForFunc failed")
+	return nil, errors.New("unexpected end of netconf message receipt")
 }
 
 func (t *transportBasicIO) WaitForBytes(b []byte) ([]byte, error) {

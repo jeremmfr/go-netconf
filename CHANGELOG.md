@@ -1,4 +1,8 @@
 <!-- markdownlint-disable-file MD041 -->
+
+* transport: rewrite message when receive EOF before end of netconf message receipt
+* transport: detect potential broken connection when sending netconf message
+
 ## 0.4.15 (December 19, 2023)
 
 * deps: bump golang.org/x/crypto to v0.17.0
