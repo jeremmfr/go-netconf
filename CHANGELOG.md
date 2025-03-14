@@ -1,5 +1,8 @@
 <!-- markdownlint-disable-file MD041 -->
 
+* golang: bump minimum version to v1.23
+* deps: bump golang.org/x/crypto to v0.36.0
+
 ## 0.5.0 (2024-05-03)
 
 * transport: rewrite message when receive EOF before end of netconf message receipt

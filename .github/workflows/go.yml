@@ -1,28 +1,28 @@
 name: Go Tests
 on: [push, pull_request]
 jobs:
-  test-1_21:
-    name: Test 1.21
+  test-1_23:
+    name: Test 1.23
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.21
+      - name: Set up Go 1.23
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: '1.23'
         id: go
       - name: Check out code
         uses: actions/checkout@v4
       - name: Test
         run: go test -v ./...
 
-  test-1_22:
-    name: Test 1.22
+  test-1_24:
+    name: Test 1.24
     runs-on: ubuntu-latest
     steps:
-      - name: Set up Go 1.22
+      - name: Set up Go 1.24
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
         id: go
       - name: Check out code
         uses: actions/checkout@v4

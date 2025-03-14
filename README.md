@@ -9,7 +9,7 @@ It's a fork of [https://github.com/Juniper/go-netconf](https://github.com/Junipe
 
 ## Install
 
-* Requires Go 1.21 or later!
+* Requires Go 1.23.0 or later!
 * `go get github.com/jeremmfr/go-netconf/netconf`
 
 ## Example
