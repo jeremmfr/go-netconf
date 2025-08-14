@@ -27,7 +27,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	defer s.Close()
+	defer s.Close() //nolint:errcheck
 
 	fmt.Println(s.ServerCapabilities)
 	fmt.Println(s.SessionID)

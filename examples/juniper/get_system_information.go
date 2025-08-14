@@ -17,7 +17,7 @@ import (
 
 	"github.com/jeremmfr/go-netconf/netconf"
 	"golang.org/x/crypto/ssh"
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 var (
@@ -60,7 +60,7 @@ func BuildConfig() *ssh.ClientConfig {
 					var readpass []byte
 					var err error
 					fmt.Printf("Enter Passphrase for %s: ", *key)
-					readpass, err = terminal.ReadPassword(syscall.Stdin)
+					readpass, err = term.ReadPassword(syscall.Stdin)
 					if err != nil {
 						log.Fatal(err)
 					}
@@ -76,7 +76,7 @@ func BuildConfig() *ssh.ClientConfig {
 		}
 	} else {
 		fmt.Printf("Enter Password: ")
-		bytePassword, err := terminal.ReadPassword(syscall.Stdin)
+		bytePassword, err := term.ReadPassword(syscall.Stdin)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -103,7 +103,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer s.Close()
+	defer s.Close() //nolint:errcheck
 
 	reply, err := s.Exec(netconf.RawMethod("<get-system-information/>"))
 	if err != nil {
