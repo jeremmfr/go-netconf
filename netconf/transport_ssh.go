@@ -49,7 +49,7 @@ func (t *TransportSSH) Close() error {
 		if err := t.sshSession.Close(); err != nil {
 			// If we receive an error when trying to close the session, then
 			// lets try to close the socket, otherwise it will be left open
-			t.sshClient.Close()
+			t.sshClient.Close() //nolint:errcheck
 			return err
 		}
 	}
@@ -58,7 +58,7 @@ func (t *TransportSSH) Close() error {
 	if t.sshClient != nil {
 		return t.sshClient.Close()
 	}
-	return fmt.Errorf("No connection to close")
+	return fmt.Errorf("no connection to close")
 }
 
 // Dial connects and establishes SSH sessions
@@ -125,7 +125,7 @@ func DialSSH(target string, config *ssh.ClientConfig) (*Session, error) {
 	var t TransportSSH
 	err := t.Dial(target, config)
 	if err != nil {
-		t.Close()
+		t.Close() //nolint:errcheck
 		return nil, err
 	}
 	return NewSession(&t), nil
@@ -143,7 +143,7 @@ func DialSSHTimeout(target string, config *ssh.ClientConfig, timeout time.Durati
 	conn := &deadlineConn{Conn: bareConn, timeout: timeout}
 	t, err := connToTransport(conn, config)
 	if err != nil {
-		t.Close()
+		t.Close() //nolint:errcheck
 		return nil, err
 	}
 
@@ -151,7 +151,7 @@ func DialSSHTimeout(target string, config *ssh.ClientConfig, timeout time.Durati
 		ticker := time.NewTicker(timeout / 2)
 		defer ticker.Stop()
 		for range ticker.C {
-			_, _, err := t.sshClient.Conn.SendRequest("KEEP_ALIVE", true, nil)
+			_, _, err := t.sshClient.SendRequest("KEEP_ALIVE", true, nil)
 			if err != nil {
 				return
 			}

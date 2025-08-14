@@ -18,7 +18,7 @@ type TransportJunos struct {
 // Close closes an existing local NETCONF session.
 func (t *TransportJunos) Close() error {
 	if t.cmd != nil {
-		t.ReadWriteCloser.Close()
+		t.ReadWriteCloser.Close() //nolint:errcheck
 	}
 	return nil
 }
