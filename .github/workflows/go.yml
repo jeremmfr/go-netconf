@@ -2,11 +2,10 @@ name: Go Tests
 on: [push, pull_request]
 jobs:
   test:
-    name: Test 1.23
+    name: Test
     strategy:
       matrix:
         golang:
-          - '1.23'
           - '1.24'
           - '1.25'
     runs-on: ubuntu-latest
