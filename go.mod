@@ -1,6 +1,6 @@
 module github.com/jeremmfr/go-netconf
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/google/go-cmp v0.7.0
